@@ -1,10 +1,10 @@
 #!/bin/sh
 
 a=1
-max=10
+max=$2
 failed=0
 
-echo "running: " $1
+echo "running: " $1 " " $2 " times"
 
 until [ $a -gt $max ]
 do
