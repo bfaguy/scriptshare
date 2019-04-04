@@ -1,15 +1,16 @@
 #!/bin/sh
 
 a=1
-max=$2
+max=${3:-10} # set default max to be 10
 failed=0
 
-echo "running: " $1 " " $2 " times"
+echo "Getting percentage of failed tests"
+echo "running: " $2 " " $3 "times"
 
 until [ $a -gt $max ]
 do
    echo "round:" $a "of" $max
-   if bundle exec cucumber --color $1 | grep "failed"; then
+   if bundle exec $1 $4 $5 $2 | grep -E "Failing|Failure/Error"; then
      echo " failed"
      ((failed++))
    else
@@ -18,4 +19,6 @@ do
    ((a++))
 done
 
-echo "failed" $failed "times out of" $max
+echo "failed" $failed "out of" $max "times"
+percent=$((100*failed/max))
+echo "failed" $percent"% of the time"
